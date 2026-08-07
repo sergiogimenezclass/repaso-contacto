@@ -1,22 +1,18 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, render_template
 import sqlite3
 from db import get_db_connection, init_db
 
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # Asegurar que la BD exista al iniciar el servidor
 init_db()
 
 # ==========================================================================
-# Rutas para servir Archivos Estáticos (Frontend HTML/CSS/JS)
+# Rutas para servir la interfaz web Frontend
 # ==========================================================================
 @app.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/<path:path>')
-def serve_static(path):
-    return send_from_directory('.', path)
+    return render_template('index.html')
 
 # ==========================================================================
 # Endpoints REST API (/api/contactos)
